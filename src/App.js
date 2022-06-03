@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Box from "./Box";
+import BoxData from "./Data/boxData";
+export default function App() {
+  const [getData, setData] = React.useState(BoxData);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  function toggle(id) {
+    setData((prevData) => {
+      return prevData.map((datas) => {
+        return id === datas.id ? { ...datas, on: !datas.on } : datas;
+      });
+    });
+  }
+
+  const printBox = getData.map((data) => {
+    return (
+      <Box
+        key={data.id}
+        id={data.id}
+        on={data.on}
+        toggle={() => toggle(data.id)}
+      />
+    );
+  });
+  return <div className="App">{printBox}</div>;
 }
-
-export default App;
